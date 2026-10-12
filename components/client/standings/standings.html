@@ -1,0 +1,42 @@
+﻿<div class="space-y-4">
+  <!-- Thanh chuyển đổi chế độ xem -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+    <div class="flex items-center gap-2">
+      <button id="tab-groups-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-blue-600 text-white" onclick="switchStandingsView('groups')">
+        <i class="fa-solid fa-layer-group mr-1"></i> Chia Bảng (A, B, C...)
+      </button>
+      <button id="tab-swiss-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold transition bg-slate-800 text-slate-300 hover:bg-slate-700" onclick="switchStandingsView('swiss')">
+        <i class="fa-solid fa-trophy mr-1"></i> Hệ Thụy Sĩ (Swiss)
+      </button>
+    </div>
+    <div id="standings-meta-badge" class="text-xs text-slate-400 font-mono">
+      Đang tải dữ liệu...
+    </div>
+  </div>
+
+  <!-- KHUNG 1: HIỂN THỊ CHIA THEO BẢNG A, B, C (Mặc định) -->
+  <div id="groups-standings-container" class="space-y-6">
+    <!-- Tự động sinh danh sách từng Bảng A, B, C qua JS -->
+  </div>
+
+  <!-- KHUNG 2: HIỂN THỊ HỆ THỤY SĨ (SWISS) -->
+  <div id="swiss-standings-container" class="hidden">
+    <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 shadow-lg">
+      <table class="w-full text-xs text-left text-slate-300">
+        <thead class="bg-slate-950 text-slate-400 uppercase text-[10px] border-b border-slate-800">
+          <tr>
+            <th class="py-3 px-3 text-center w-12">Hạng</th>
+            <th class="py-3 px-3">Đội / Vận Động Viên</th>
+            <th class="py-3 px-3 text-center w-14">Trận</th>
+            <th class="py-3 px-3 text-center w-14">Thắng</th>
+            <th class="py-3 px-3 text-center w-14">Thua</th>
+            <th class="py-3 px-3 text-center w-20">Set (T-B)</th>
+            <th class="py-3 px-3 text-center w-16">HS Set</th>
+            <th class="py-3 px-3 text-center w-16 font-bold text-amber-400">Điểm</th>
+          </tr>
+        </thead>
+        <tbody id="swiss-table-body" class="divide-y divide-slate-800/60"></tbody>
+      </table>
+    </div>
+  </div>
+</div>

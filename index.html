@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ngọc Phát Sunday - Giải Cầu Lông Đồng Đội</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2300b4d8'/><text x='50' y='68' font-size='60' text-anchor='middle'>🏸</text></svg>">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Custom Dark Cyan CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            cyber: {
+              base: '#070d19',
+              card: '#0c1524',
+              cardHover: '#101c30',
+              border: '#16263f',
+              cyan: '#00e5ff',
+              teal: '#00b4d8',
+              muted: '#7e94b2'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Firebase SDK Compat via CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+</head>
+<body class="bg-[#070d19] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="bg-[#091120]/95 backdrop-blur-md border-b border-[#14233a] sticky top-0 z-40 shadow-xl">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
+      
+      <!-- Merged Single Header Row: Nav Tabs + Search Bar -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+        
+        <!-- Left: Primary Navigation Tabs -->
+        <nav class="flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto py-0.5 scrollbar-none">
+          <button id="tab-btn-rules" class="tab-btn tab-pill-cyan-inactive px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide uppercase transition flex items-center gap-1 whitespace-nowrap">
+            <span>THỂ LỆ</span>
+          </button>
+          
+          <button id="tab-btn-standings" class="tab-btn tab-pill-cyan-active px-2.5 py-1 rounded-md text-[11px] font-black tracking-wide uppercase transition flex items-center gap-1 whitespace-nowrap shadow-sm">
+            <span>BẢNG ĐIỂM</span>
+          </button>
+
+          <button id="tab-btn-bracket" class="tab-btn tab-pill-cyan-inactive px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wide uppercase transition flex items-center gap-1 whitespace-nowrap">
+            <span>VÒNG LOẠI</span>
+          </button>
+        </nav>
+
+   <a href="scoreboard.html" target="_blank" class="btn btn-warning">
+  🏸 Mở Bảng Đếm Điểm Sân Đấu
+</a>      <!-- Right: Search Bar -->
+        <div class="relative min-w-[200px] sm:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-cyan-400/70 text-[11px]"></i>
+          <input 
+            type="text" 
+            id="global-search-input" 
+            placeholder="Tìm kiếm VĐV, Sân, Đội..." 
+            class="w-full bg-[#0a1322] text-[11px] text-white placeholder-slate-500 pl-8 pr-7 py-1.5 rounded-lg border border-[#192b45] focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 shadow-inner transition"
+          >
+          <button id="btn-clear-search" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 hidden text-[11px]">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6">
+
+    <!-- TAB 1: BẢNG ĐIỂM (STANDINGS) -->
+    <section id="section-standings" class="tab-content space-y-6">
+      <!-- Nạp động từ components/client/standings/standings.html -->
+    </section>
+
+    <!-- TAB 2: THỂ LỆ & QUY TẮC TÍNH ĐIỂM -->
+    <section id="section-rules" class="tab-content hidden space-y-6">
+      <!-- Nạp động từ components/client/rules/rules.html -->
+    </section>
+
+    <!-- TAB 3: VÒNG KNOCKOUT (PLAYOFFS & BRACKET) -->
+    <section id="section-bracket" class="tab-content hidden space-y-6">
+      <!-- Nạp động từ components/client/bracket/bracket.html -->
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-[#08101c] border-t border-[#14233a] py-4 mt-auto text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 Giải Cầu Lông Đồng Đội Ngọc Phát Sunday</p>
+      <div class="flex items-center space-x-3">
+        <a href="admin.html" class="text-slate-400 hover:text-cyan-400 transition flex items-center gap-1">
+          <i class="fa-solid fa-lock text-[10px]"></i>
+          <span>Đăng nhập Ban Tổ Chức</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Shared Scripts -->
+  <script src="js/data.js?v=2.1"></script>
+  <script src="js/firebase-env.js?v=2.1"></script>
+  <script src="js/firebase-config.js?v=2.1"></script>
+  <script src="js/utils.js?v=2.1"></script>
+  <script src="js/component-loader.js?v=2.1"></script>
+
+  <!-- Client Component Controllers -->
+  <script src="components/client/rules/rules.js?v=2.1"></script>
+  <script src="components/client/standings/standings.js?v=2.1"></script>
+  <script src="components/client/bracket/bracket.js?v=2.1"></script>
+
+  <!-- App Core Orchestrator -->
+  <script src="js/app-core.js?v=2.1"></script>
+</body>
+</html>

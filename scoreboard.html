@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Điểm Trực Tiếp - Cầu Lông</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background-color: #111827;
+      color: #f9fafb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .board-header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .set-badge {
+      background: #2563eb;
+      color: white;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .teams-container {
+      width: 100%;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .team-card {
+      background: #1f2937;
+      border: 3px solid #374151;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .team-card.serving {
+      border-color: #fbbf24;
+      box-shadow: 0 0 16px rgba(251, 191, 36, 0.35);
+    }
+    .serve-indicator {
+      display: none;
+      background: #fbbf24;
+      color: #111827;
+      font-weight: bold;
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .team-card.serving .serve-indicator {
+      display: inline-block;
+    }
+    .team-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+      min-height: 40px;
+    }
+    .set-won {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .score-display {
+      font-size: 6.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+      margin: 16px 0;
+      user-select: none;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+    .btn-action {
+      flex: 1;
+      padding: 16px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-action:active {
+      opacity: 0.7;
+    }
+    .btn-plus {
+      background: #10b981;
+      color: white;
+    }
+    .btn-minus {
+      background: #ef4444;
+      color: white;
+      max-width: 60px;
+      font-size: 1.2rem;
+    }
+    .control-bar {
+      margin-top: 24px;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .btn-tool {
+      background: #374151;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .btn-tool:hover {
+      background: #4b5563;
+    }
+    @media (max-width: 640px) {
+      .score-display {
+        font-size: 4.5rem;
+      }
+      .team-name {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="board-header">
+    <button class="btn-tool" onclick="window.history.back()">← Quay lại</button>
+    <div id="setInfo" class="set-badge">SET 1</div>
+    <button class="btn-tool" id="btnSwitchServe">Đổi quyền giao cầu 🏸</button>
+  </div>
+
+  <div class="teams-container">
+    <!-- Đội A -->
+    <div class="team-card serving" id="cardA">
+      <span class="serve-indicator">GIAO CẦU</span>
+      <div class="team-name" id="nameA">Đội A</div>
+      <div class="set-won" id="setsWonA">Set thắng: 0</div>
+      <div class="score-display" id="scoreA">0</div>
+      <div class="btn-group">
+        <button class="btn-action btn-minus" onclick="changeScore('A', -1)">-</button>
+        <button class="btn-action btn-plus" onclick="changeScore('A', 1)">+1</button>
+      </div>
+    </div>
+
+    <!-- Đội B -->
+    <div class="team-card" id="cardB">
+      <span class="serve-indicator">GIAO CẦU</span>
+      <div class="team-name" id="nameB">Đội B</div>
+      <div class="set-won" id="setsWonB">Set thắng: 0</div>
+      <div class="score-display" id="scoreB">0</div>
+      <div class="btn-group">
+        <button class="btn-action btn-minus" onclick="changeScore('B', -1)">-</button>
+        <button class="btn-action btn-plus" onclick="changeScore('B', 1)">+1</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="control-bar">
+    <button class="btn-tool" onclick="switchSide()">Đổi sân (Đổi bên)</button>
+    <button class="btn-tool" onclick="resetCurrentSet()">Đặt lại set hiện tại</button>
+    <button class="btn-tool" style="background:#dc2626;" onclick="finishSet()">Kết thúc Set đấu</button>
+  </div>
+
+  <!-- Nạp cấu hình Firebase có sẵn của dự án -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="js/firebase-env.js"></script>
+  <script src="js/firebase-config.js"></script>
+
+  <script>
+    // Trạng thái trận đấu
+    const matchState = {
+      scoreA: 0,
+      scoreB: 0,
+      setsWonA: 0,
+      setsWonB: 0,
+      currentSet: 1,
+      server: 'A', // 'A' hoặc 'B'
+      maxScore: 21
+    };
+
+    // Lấy ID trận đấu từ URL nếu có (ví dụ: scoreboard.html?matchId=abc)
+    const urlParams = new URLSearchParams(window.location.search);
+    const matchId = urlParams.get('matchId') || 'live_current_match';
+
+    function updateUI() {
+      document.getElementById('scoreA').innerText = matchState.scoreA;
+      document.getElementById('scoreB').innerText = matchState.scoreB;
+      document.getElementById('setsWonA').innerText = `Set thắng: ${matchState.setsWonA}`;
+      document.getElementById('setsWonB').innerText = `Set thắng: ${matchState.setsWonB}`;
+      document.getElementById('setInfo').innerText = `SET ${matchState.currentSet}`;
+
+      document.getElementById('cardA').classList.toggle('serving', matchState.server === 'A');
+      document.getElementById('cardB').classList.toggle('serving', matchState.server === 'B');
+
+      // Tự động đẩy lên Firebase nếu Firebase đã khởi tạo
+      syncToFirebase();
+    }
+
+    function changeScore(team, delta) {
+      if (team === 'A') {
+        matchState.scoreA = Math.max(0, matchState.scoreA + delta);
+        if (delta > 0) matchState.server = 'A';
+      } else {
+        matchState.scoreB = Math.max(0, matchState.scoreB + delta);
+        if (delta > 0) matchState.server = 'B';
+      }
+      updateUI();
+    }
+
+    function switchSide() {
+      // Đổi bên hiển thị
+      const nameA = document.getElementById('nameA').innerText;
+      document.getElementById('nameA').innerText = document.getElementById('nameB').innerText;
+      document.getElementById('nameB').innerText = nameA;
+
+      const tempScore = matchState.scoreA;
+      matchState.scoreA = matchState.scoreB;
+      matchState.scoreB = tempScore;
+
+      matchState.server = matchState.server === 'A' ? 'B' : 'A';
+      updateUI();
+    }
+
+    function resetCurrentSet() {
+      if (confirm("Bạn có chắc chắn muốn đặt lại điểm của set này về 0?")) {
+        matchState.scoreA = 0;
+        matchState.scoreB = 0;
+        updateUI();
+      }
+    }
+
+    function finishSet() {
+      const winner = matchState.scoreA > matchState.scoreB ? 'Đội A' : 'Đội B';
+      if (!confirm(`Xác nhận kết thúc Set ${matchState.currentSet}? Người thắng: ${winner}`)) return;
+
+      if (matchState.scoreA > matchState.scoreB) {
+        matchState.setsWonA++;
+      } else {
+        matchState.setsWonB++;
+      }
+
+      matchState.currentSet++;
+      matchState.scoreA = 0;
+      matchState.scoreB = 0;
+      updateUI();
+    }
+
+    document.getElementById('btnSwitchServe').addEventListener('click', () => {
+      matchState.server = matchState.server === 'A' ? 'B' : 'A';
+      updateUI();
+    });
+
+    // Đồng bộ lên Realtime Database
+    function syncToFirebase() {
+      if (typeof firebase !== 'undefined' && firebase.database) {
+        firebase.database().ref(`liveScores/${matchId}`).set({
+          ...matchState,
+          updatedAt: Date.now()
+        }).catch(err => console.warn("Lỗi đồng bộ Firebase:", err));
+      }
+    }
+
+    // Lắng nghe dữ liệu ban đầu
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof firebase !== 'undefined' && firebase.database) {
+        firebase.database().ref(`liveScores/${matchId}`).on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            Object.assign(matchState, data);
+            document.getElementById('scoreA').innerText = matchState.scoreA;
+            document.getElementById('scoreB').innerText = matchState.scoreB;
+            document.getElementById('setsWonA').innerText = `Set thắng: ${matchState.setsWonA}`;
+            document.getElementById('setsWonB').innerText = `Set thắng: ${matchState.setsWonB}`;
+            document.getElementById('setInfo').innerText = `SET ${matchState.currentSet}`;
+            document.getElementById('cardA').classList.toggle('serving', matchState.server === 'A');
+            document.getElementById('cardB').classList.toggle('serving', matchState.server === 'B');
+          }
+        });
+      }
+      updateUI();
+    });
+  </script>
+</body>
+</html>
