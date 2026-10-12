@@ -1,18 +1,27 @@
-<!-- COMPONENT ADMIN: QUẢN LÝ ĐỘI HÌNH & VĐV -->
+﻿<!-- COMPONENT ADMIN: QUẢN LÝ ĐỘI HÌNH & VĐV (ĐÔI NAM / ĐÔI NỮ / MIXED / ĐƠN) -->
 <div class="space-y-6">
-  <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700">
-    <h2 class="text-[11px] font-bold text-white flex items-center gap-2">
-      <span class="w-2 h-5 bg-emerald-500 rounded-full inline-block"></span>
-      Chỉnh Sửa Thông Tin 10 Đội & VĐV
-    </h2>
-    <p class="text-[11px] text-slate-400 mt-1">
-      Chỉnh sửa trực tiếp tên đội hoặc thay đổi tên 3 VĐV nếu có nhầm lẫn chính tả hoặc đổi người đột xuất. Dữ liệu sẽ cập nhật ngay lập tức lên Database!
-    </p>
+  <!-- Thanh điều khiển trên cùng -->
+  <div class="bg-slate-800/90 p-4 rounded-2xl border border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md">
+    <div>
+      <h2 class="text-sm font-bold text-white flex items-center gap-2">
+        <span class="w-2.5 h-5 bg-emerald-500 rounded-full inline-block"></span>
+        Quản Lý Danh Sách Đội & Vận Động Viên
+      </h2>
+      <p class="text-xs text-slate-400 mt-1">
+        Hỗ trợ Đôi Nam, Đôi Nữ, Đôi Nam Nữ và Đơn. Tự động đồng bộ lên Database!
+      </p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="btn-add-new-team" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm cursor-pointer shrink-0">
+        <i class="fa-solid fa-plus"></i> Thêm Cặp Đấu Mới
+      </button>
+    </div>
   </div>
 
-  <div id="admin-teams-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="p-6 bg-slate-800/80 rounded-2xl border border-slate-700 text-center text-slate-400 animate-pulse text-xs col-span-2">
-      Đang tải danh sách 10 đội...
+  <!-- Danh sách các thẻ đội hình -->
+  <div id="admin-teams-container" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="p-8 bg-slate-800/80 rounded-2xl border border-slate-700 text-center text-slate-400 animate-pulse text-xs col-span-2">
+      Đang tải danh sách đội thi đấu...
     </div>
   </div>
 </div>
